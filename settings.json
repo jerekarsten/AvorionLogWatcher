@@ -38,5 +38,6 @@
     "notifycolor":{
         "foreground":["black"],
         "background":["on_light_red"]
-    }
+    },
+    "soundfile":["sound.wav"]
 }

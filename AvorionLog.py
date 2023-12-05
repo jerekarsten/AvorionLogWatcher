@@ -72,7 +72,7 @@ def colorize(line, default_color=None):
     if any(word in line for word in notify):
         current_time = time.time()
         if current_time - last_played > delay:
-            winsound.PlaySound('sound.wav', winsound.SND_FILENAME)
+            winsound.PlaySound(settings['soundfile'][0], winsound.SND_FILENAME)
             last_played = current_time
 
     # If the line contains a word from the word filter, return None
