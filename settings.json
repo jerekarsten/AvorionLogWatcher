@@ -1,0 +1,42 @@
+{   
+    "colors":{
+        "blue":[],
+        "cyan":[],
+        "green":[],
+        "grey": [],
+        "magenta":[],
+        "red":[],
+        "yellow":["Player"],
+        "white":["Mobile Merchant","sold"],
+        "light_blue":[],
+        "light_cyan":["We need","You paid","Commander","Paid"],
+        "light_green":[],
+        "light_grey":["<Research Station>","bought","was paid"],
+        "light_magenta":["Alien ships"],
+        "light_red":[],
+        "light_yellow":[]
+    },
+    "patternColors":{
+        "blue": [],
+        "cyan": [],
+        "green": [],
+        "grey": [],
+        "magenta": [],
+        "red": [],
+        "yellow": ["Ogonite"],
+        "white": [],
+        "light_blue": ["Trinium"],
+        "light_cyan": ["(?<=[Ss]old\\s)\\d+", "(?<=[Bb]ought\\s)\\d+"],
+        "light_grey": ["Titanium"],
+        "light_green": ["Naonite"],
+        "light_magenta": [],
+        "light_red": ["Avorion"],
+        "light_yellow": ["Xanion","¢\\d{1,3}(\\.\\d{1,3})*", "(\\d+(\\.\\d+)*) Credits"]
+    },
+    "wordfilter":["index",".lua:","script","<>","Thread","error","<Server>"],
+    "notify":["attacking","under attack","worsened","idle","<Resource Depot> We need","is awaiting"],
+    "notifycolor":{
+        "foreground":["black"],
+        "background":["on_light_red"]
+    }
+}
