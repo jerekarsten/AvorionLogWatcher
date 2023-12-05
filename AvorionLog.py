@@ -51,7 +51,6 @@ delay = 5  # Delay in seconds
 # Otherwise, it returns the colorized line.
 def colorize(line, default_color=None):
     global last_played  # Use the global last_played variable
-
     # If a default color is provided, color the entire line with it
     if default_color is not None:
         line = colored(line, default_color)
@@ -124,38 +123,28 @@ def tail(f):
             continue
         yield line
 
-# The 'process_line' function checks if a line contains any word from 'word_filter' or 'notify' lists.
-# If a word from 'word_filter' is found, it returns None.
-# If a word from 'notify' is found and 'mute' is False, it returns the line.
-# If neither condition is met, it also returns None.
-def process_line(line, word_filter, notify):
-    # If the line contains a word from the word filter, return None
-    if any(word in line for word in word_filter):
-        return None
-
-    # Check for "Stopping local server" before checking for notify words
-    if "Stopping local server" in line:
-        print(line)
-        print("Exiting script...")
-        sys.exit(0)
-
-    # If the line contains a word from the notify list and mute is False, return the line
-    if any(word in line for word in notify):
-        return line
-
-    return None
 
 def format_date(line):
     # Split the line into entries
     entries = line.split('|')
     # Get the date string and remove leading/trailing whitespace
     date_string = entries[0].strip()
-    # Parse the date string into a datetime object
-    date = datetime.strptime(date_string, "%Y-%m-%d %H-%M-%S")
-    # Format the datetime object into a more human-readable string
-    formatted_date = date.strftime("%H:%M:%S")
-    # Combine the formatted date with the rest of the line
-    formatted_line = formatted_date + '> ' + ' '.join(entries[1:]).strip()
+
+    # Check if date_string is not empty
+    if date_string:
+        try:
+            # Parse the date string into a datetime object
+            date = datetime.strptime(date_string, "%Y-%m-%d %H-%M-%S")
+            # Format the datetime object into a more human-readable string
+            formatted_date = date.strftime("%H:%M:%S")
+            # Combine the formatted date with the rest of the line
+            formatted_line = formatted_date + '> ' + ' '.join(entries[1:]).strip()
+        except ValueError:
+            # If date_string cannot be parsed, return the original line
+            return line
+    else:
+        # If date_string is empty, return the original line
+        return line
 
     return formatted_line
 
@@ -190,7 +179,7 @@ def main():
     # Open the file and use tail to follow the file and get new lines as they are written
     with open(path, 'r', encoding='utf-8') as f:
         for line in tail(f):
-            colored_line = colorize(line.rstrip('\n'))  # Pass the color argument
+            colored_line = colorize(format_date(line.rstrip('\n')))  # Pass the color argument
             check_and_exit(line)
             if colored_line:  # Only print the line if it's not None
                 # Check if any notify word is in the colored_line
@@ -199,25 +188,6 @@ def main():
                     print(colored(colored_line, settings['notifycolor']['foreground'][0], settings['notifycolor']['background'][0]))
                 else:
                     print(colored_line)
-
-def main2():
-    # Open the file in UTF-8 encoding
-    with open(path, 'r', encoding='utf-8') as f:
-        # Create a deque to hold the last 10 lines
-        last_10_lines = collections.deque((line.rstrip('\n') for line in f), 100)
-
-    # Print the last 10 lines
-    for line in last_10_lines:
-        colored_line = colorize(line)
-        if colored_line:  # Only print the line if it's not None
-            print(colored_line)
-
-    # Open the file and use tail to follow the file and get new lines as they are written
-    with open(path, 'r', encoding='utf-8') as f:
-        for line in tail(f):
-            colored_line = colorize(line.rstrip('\n'))
-            if colored_line:  # Only print the line if it's not None
-                print(colored_line)
 
 if __name__ == "__main__":
     main()
