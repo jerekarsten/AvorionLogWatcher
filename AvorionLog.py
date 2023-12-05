@@ -190,7 +190,7 @@ def main():
     # Open the file and use tail to follow the file and get new lines as they are written
     with open(path, 'r', encoding='utf-8') as f:
         for line in tail(f):
-            colored_line = colorize(format_date(line).rstrip('\n'))  # Pass the color argument
+            colored_line = colorize(line.rstrip('\n'))  # Pass the color argument
             check_and_exit(line)
             if colored_line:  # Only print the line if it's not None
                 # Check if any notify word is in the colored_line
