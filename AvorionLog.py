@@ -72,7 +72,7 @@ def colorize(line, default_color=None):
     if any(word in line for word in notify):
         current_time = time.time()
         if current_time - last_played > delay:
-            winsound.PlaySound(settings['soundfile'][0], winsound.SND_FILENAME)
+            winsound.PlaySound('sound.wav', winsound.SND_FILENAME)
             last_played = current_time
 
     # If the line contains a word from the word filter, return None
@@ -190,7 +190,7 @@ def main():
     # Open the file and use tail to follow the file and get new lines as they are written
     with open(path, 'r', encoding='utf-8') as f:
         for line in tail(f):
-            colored_line = colorize(line.rstrip('\n'))  # Pass the color argument
+            colored_line = colorize(format_date(line).rstrip('\n'))  # Pass the color argument
             check_and_exit(line)
             if colored_line:  # Only print the line if it's not None
                 # Check if any notify word is in the colored_line
