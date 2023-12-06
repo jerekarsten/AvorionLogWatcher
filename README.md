@@ -7,5 +7,6 @@ cd .\AvorionLogWatcher\
 .\Scripts\activate
 
 pip install termcolor
+
 .\AvorionLog.py
 
